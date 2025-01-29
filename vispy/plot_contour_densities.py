@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize, LogNorm
 from matplotlib.colors import LinearSegmentedColormap
-from get_parameters_from_input_deck import extract_plasma_wavelength
+from from_input_deck import extract_plasma_wavelength
 E_WB = 1
 def create_custom_cmap(color):
     # Create a color map that goes from transparent to the specified color

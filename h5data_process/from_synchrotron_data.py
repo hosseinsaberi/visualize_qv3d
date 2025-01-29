@@ -23,6 +23,7 @@ import pandas as pd
 from scipy import integrate
 from func import find_files_in_directory
 from scipy.constants import pi, e, hbar, m_e, c, epsilon_0
+from func import find_folders_with_pattern
 
 
 # ///////////////////////////////////////////////////////////////////
@@ -96,21 +97,12 @@ def analyze_synch_files(file_path):
     return criticalEnergy, Nphoton_Energy, Nphoton_Theta, Nphoton_Phi, Energy, Theta, Phi, phase
 
 # ///////////////////////////////////////////////////////////////////
-def main():
-    # Check if the correct number of arguments are provided
-    if len(sys.argv) != 2:
-        print("Usage: python vs3d_particles_extract_beam_parameters.py <simulation_dir>")
-        sys.exit(1)
-
-    # Access the input argument
-    simulation_dir = sys.argv[1]
+def singleSimulation(simulation_dir):
     synch_files = find_files_in_directory(simulation_dir, "v3d_synchrotron_*")
     
     # last synchrotron file will be analyzed synch_files[-1]
     last_file_path = synch_files[-1]
     last_file_name = os.path.basename(last_file_path)
-    print(last_file_name)
-    
     
     criticalEnergys, \
     Nphotons_Energy, Nphotons_Theta, Nphotons_Phi, \
@@ -133,7 +125,32 @@ def main():
     output_synchrotron  = os.path.join(simulation_dir, 'synchrotron.pkl')
     with open(output_synchrotron, 'wb') as file:
         pickle.dump(variables_dict, file)
+    
+    for h5 in synch_files:
+        os.remove(h5)    
 
+# ///////////////////////////////////////////////////////////////////
+def scanSimulation(simulation_dir):
+    simulation_scan_folders = find_folders_with_pattern(simulation_dir, 'density')
+    print(simulation_scan_folders)
+    for sim_dir in simulation_scan_folders:
+        singleSimulation(sim_dir)
+
+# ///////////////////////////////////////////////////////////////////
+def main():
+    # Check if the correct number of arguments are provided
+    if len(sys.argv) != 3:
+        print("Usage: python vs3d_particles_extract_beam_parameters.py <simulation_dir> <option: single/scan?>")
+        sys.exit(1)
+
+    # Access the input argument
+    simulation_dir = sys.argv[1]
+    
+    option = sys.argv[2]
+    if option == 'single':
+        singleSimulation(simulation_dir)
+    elif option == 'scan':
+        scanSimulation(simulation_dir)
    
 if __name__ == "__main__":
     main()

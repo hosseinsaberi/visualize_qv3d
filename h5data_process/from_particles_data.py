@@ -143,7 +143,7 @@ def extract_AllFiles_singleRun(simulation_dir):
     for h5 in matching_files:
         file_num = file_num + 1
         extract_singleFile(simulation_dir, file_num)
-#        os.remove(h5)
+        os.remove(h5)
 
 
 # ///////////////////////////////////////////////////////////////////
@@ -166,7 +166,7 @@ def main():
     simulation_dir = sys.argv[1]
     if sys.argv[2] == 'Scan':
         # if it is plasma density scan
-        extract_AllFiles_scan(simulation_dir, 'lag')
+        extract_AllFiles_scan(simulation_dir, 'density')
         
     elif sys.argv[2] == 'AllFiles':
         extract_AllFiles_singleRun(simulation_dir)
