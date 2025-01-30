@@ -14,6 +14,7 @@ Usage:
 # import libraries
 # ################
 import os
+import re
 import sys
 import h5py
 import pickle
@@ -104,6 +105,10 @@ def singleSimulation(simulation_dir):
     last_file_path = synch_files[-1]
     last_file_name = os.path.basename(last_file_path)
     
+    # Regular expression to match digits in the filename
+    matches = re.findall(r"(\d+)", last_file_name)
+    synchFile_number = matches[1]  # Get the last numeric part
+
     criticalEnergys, \
     Nphotons_Energy, Nphotons_Theta, Nphotons_Phi, \
     Energy, Theta, Phi, phase \
@@ -121,8 +126,9 @@ def singleSimulation(simulation_dir):
         'phase': phase
         }
         
-    # Save the DataFrame to a pkl file    
-    output_synchrotron  = os.path.join(simulation_dir, 'synchrotron.pkl')
+    # Save the DataFrame to a pkl file   
+    pkl_filename = 'v3d_synchrotron_' + str(synchFile_number) + '.pkl' 
+    output_synchrotron  = os.path.join(simulation_dir, pkl_filename)
     with open(output_synchrotron, 'wb') as file:
         pickle.dump(variables_dict, file)
     
