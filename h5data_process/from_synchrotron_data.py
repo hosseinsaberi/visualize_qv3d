@@ -132,8 +132,12 @@ def singleSimulation(simulation_dir):
 # ///////////////////////////////////////////////////////////////////
 def scanSimulation(simulation_dir):
     simulation_scan_folders = find_folders_with_pattern(simulation_dir, 'density')
-    print(simulation_scan_folders)
+
     for sim_dir in simulation_scan_folders:
+        folder_name = os.path.basename(os.path.dirname(sim_dir))
+
+
+        print(folder_name)
         singleSimulation(sim_dir)
 
 # ///////////////////////////////////////////////////////////////////

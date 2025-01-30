@@ -74,7 +74,8 @@ def convert_text_to_csv(input_file, output_file):
 
         # Create a pandas DataFrame from the list of data
         # Generate column names automatically
-        column_names = [f"Column_{i+1}" for i in range(len(data[0]))]
+        #column_names = [f"Column_{i+1}" for i in range(len(data[0]))]
+        column_names = ['phase', 'wmy', 'wmz', 'wmvy', 'wmvz', 'stdev_y', 'stdev_z', 'stdev_vy', 'stdev_vz', 'em_y', 'em_z', 'wmg', 'stdev_g', 'N', 'W', 'lamdap']
         df = pd.DataFrame(data, columns=column_names)
 
         # Save the DataFrame to a CSV file

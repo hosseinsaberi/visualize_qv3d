@@ -15,7 +15,7 @@ scan_directory="$1"
 
 cd h5data_process
 # Execute the Python script with the provided arguments
-python from_particles_data.py "$scan_directory" Scan
+#python from_particles_data.py "$scan_directory" Scan
 python from_synchrotron_data.py "$scan_directory" scan
 
 # End of script
