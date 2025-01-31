@@ -48,29 +48,30 @@ def find_input_deck(directory):
         sys.exit(1)
 
 # ////////////////////////////////////////////////////////////////////////
-def extract_plasma_wavelength(directory):
+def extract_value_from_input_deck(directory, key):
     """
-    Extracts the value of 'Wavelength' from input deck.
-    
+    Extracts the value of a given key from the input deck.
+
     Args:
-        file_path (str): Path to the file.
-        
+        directory (str): Path to the directory containing the input deck.
+        key (str): The parameter name to search for (e.g., 'Wavelength').
+
     Returns:
-        float: The value of 'Wavelength' if found.
+        float: The value of the given key if found, otherwise None.
     """
     input_deck_path = find_input_deck(directory)    
     try:
-        # Open and read the file
         with open(input_deck_path, 'r') as file:
             content = file.read()
         
-        # Use regex to find the value of Wavelength
-        match = re.search(r'Wavelength\s*=\s*([\d.eE+-]+)', content)
+        # Generalized regex pattern to match the key and extract its value
+        pattern = rf'{key}\s*=\s*([\d.eE+-]+)'
+        match = re.search(pattern, content)
+        
         if match:
-            wavelength_value = float(match.group(1))  # Convert to float
-            return wavelength_value
+            return float(match.group(1))  # Convert to float
         else:
-            raise ValueError("Wavelength not found in the file.")
+            raise ValueError(f"{key} not found in the file.")
     
     except Exception as e:
         print(f"An error occurred: {e}")
