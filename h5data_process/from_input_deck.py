@@ -115,3 +115,26 @@ def find_SkipSaveFlag(directory, species):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+# ////////////////////////////////////////////////////////////////////////
+def find_species_parameter(directory, species_name, parameter):
+    """Find the value of a given parameter within a specified species block."""
+    input_deck = find_input_deck(directory)
+    if not input_deck:
+        print('ERROR - No input deck has been found.')
+        return None
+    
+    with open(input_deck, 'r') as file:
+        lines = file.readlines()
+    
+    inside_species = False
+    for line in lines:
+        if line.strip().startswith(species_name):
+            inside_species = True
+        elif line.strip().startswith("&") and inside_species:
+            break  # Exit the species block when another species starts
+        elif inside_species and parameter in line:
+            match = re.search(r'(\S+)\s*=\s*([\d.eE+-]+)', line)
+            if match and match.group(1) == parameter:
+                return match.group(2)
+    
+    return None
