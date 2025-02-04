@@ -37,11 +37,14 @@ def beamParameters_inSingleRun(csvFile):
 
     # Create a dictionary with the arrays
     BeamParameters = {
-        'position [cm]': position*100,
-        'energy [MeV]': energy/1e6,
-        'energySpread [%]': energySpread,
-        'charge [pC]':charge/1e-12,
-        'emittance [mm-mrad]':emittance  
+        'position[cm]': position*100,
+        'energy[MeV]': energy/1e6,
+        'energySpread[%]': energySpread,
+        'charge[pC]':charge/1e-12,
+        'emittance[mm-mrad]':emittance,
+        'Plasma Density[/cm3]':n0/1e6,
+        'Plasma Wavelength[cm]':wavelength*100,
+        'Ewb[GV/m]':E_WB/1e9
     }
 
     # Create the DataFrame
@@ -51,4 +54,4 @@ def beamParameters_inSingleRun(csvFile):
     #print(beam_df.head(10))
     keys = beam_df.columns.tolist()
     #print(keys)
-    return beam_df, keys, n0/1e6, E_WB/1e9, wavelength*100
+    return beam_df, keys
