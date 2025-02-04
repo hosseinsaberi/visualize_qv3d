@@ -41,7 +41,7 @@ def beamParameters_inSingleRun(csvFile):
         'energy [MeV]': energy/1e6,
         'energySpread [%]': energySpread,
         'charge [pC]':charge/1e-12,
-        'emittance [mm-mrad]':emittance/1e-6   
+        'emittance [mm-mrad]':emittance  
     }
 
     # Create the DataFrame
@@ -51,4 +51,4 @@ def beamParameters_inSingleRun(csvFile):
     #print(beam_df.head(10))
     keys = beam_df.columns.tolist()
     #print(keys)
-    return beam_df, keys, n0/1e6, E_WB/1e9
+    return beam_df, keys, n0/1e6, E_WB/1e9, wavelength*100
