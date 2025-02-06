@@ -152,6 +152,8 @@ def extract_AllFiles_scan(simulation_dir, pattern):
     simulation_scan_folders = find_folders_with_pattern(simulation_dir, pattern)
     #print(simulation_scan_folders)
     for sim_dir in simulation_scan_folders:
+        folder_name = os.path.basename(os.path.dirname(sim_dir))
+        print(folder_name)
         extract_AllFiles_singleRun(sim_dir)
     
     

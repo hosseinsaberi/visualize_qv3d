@@ -101,36 +101,37 @@ def analyze_synch_files(file_path):
 def singleSimulation(simulation_dir):
     synch_files = find_files_in_directory(simulation_dir, "v3d_synchrotron_*")
     
-    # last synchrotron file will be analyzed synch_files[-1]
-    last_file_path = synch_files[-1]
-    last_file_name = os.path.basename(last_file_path)
+    for synch_file in synch_files:
+        #last synchrotron file will be analyzed synch_files[-1]
+        #last_file_path = synch_files[-1]
+        synch_file_name = os.path.basename(synch_file)
     
-    # Regular expression to match digits in the filename
-    matches = re.findall(r"(\d+)", last_file_name)
-    synchFile_number = matches[1]  # Get the last numeric part
+        # Regular expression to match digits in the filename
+        matches = re.findall(r"(\d+)", synch_file_name)
+        synchFile_number = matches[1]  # Get the last numeric part
 
-    criticalEnergys, \
-    Nphotons_Energy, Nphotons_Theta, Nphotons_Phi, \
-    Energy, Theta, Phi, phase \
-    = analyze_synch_files(last_file_path)
+        criticalEnergys, \
+        Nphotons_Energy, Nphotons_Theta, Nphotons_Phi, \
+        Energy, Theta, Phi, phase \
+        = analyze_synch_files(synch_file)
 
-    # Create a dictionary of the variables
-    variables_dict = {
-        'criticalEnergy': criticalEnergys,
-        'Nphoton_Energy': Nphotons_Energy,
-        'Nphoton_Theta': Nphotons_Theta,
-        'Nphoton_Phi': Nphotons_Phi,
-        'Energy': Energy,
-        'Theta': Theta,
-        'Phi': Phi,
-        'phase': phase
-        }
+        # Create a dictionary of the variables
+        variables_dict = {
+            'criticalEnergy': criticalEnergys,
+            'Nphoton_Energy': Nphotons_Energy,
+            'Nphoton_Theta': Nphotons_Theta,
+            'Nphoton_Phi': Nphotons_Phi,
+            'Energy': Energy,
+            'Theta': Theta,
+            'Phi': Phi,
+            'phase': phase
+            }
         
-    # Save the DataFrame to a pkl file   
-    pkl_filename = 'v3d_synchrotron_' + str(synchFile_number) + '.pkl' 
-    output_synchrotron  = os.path.join(simulation_dir, pkl_filename)
-    with open(output_synchrotron, 'wb') as file:
-        pickle.dump(variables_dict, file)
+        # Save the DataFrame to a pkl file   
+        pkl_filename = 'v3d_synchrotron_' + str(synchFile_number) + '.pkl' 
+        output_synchrotron  = os.path.join(simulation_dir, pkl_filename)
+        with open(output_synchrotron, 'wb') as file:
+            pickle.dump(variables_dict, file)
     
     for h5 in synch_files:
         os.remove(h5)    
